@@ -88,7 +88,6 @@
                         <a href="#beranda" class="nav-link">Beranda</a>
                         <a href="#visi-misi" class="nav-link">Visi & Misi</a>
                         <a href="#nilai" class="nav-link">Nilai Dasar</a>
-                        <a href="#analisis" class="nav-link">Rasionalisasi</a>
                         <a href="#program" class="nav-link">Program Inti</a>
                         <a href="#roadmap" class="nav-link">Linimasa</a>
                         <a href="#penutup" class="nav-link">Penutup</a>
@@ -110,7 +109,6 @@
                 <a href="#beranda" class="nav-link block">Beranda</a>
                 <a href="#visi-misi" class="nav-link block">Visi & Misi</a>
                 <a href="#nilai" class="nav-link block">Nilai Dasar</a>
-                <a href="#analisis" class="nav-link block">Rasionalisasi</a>
                 <a href="#program" class="nav-link block">Program Inti</a>
                 <a href="#roadmap" class="nav-link block">Linimasa</a>
                 <a href="#penutup" class="nav-link block">Penutup</a>
@@ -230,36 +228,10 @@
             </div>
         </section>
         
-        <!-- 4. Analisis Kebutuhan & Target (Perbandingan/Rasionalisasi) - Dark Contrast -->
-        <section id="analisis" class="py-24 px-4 sm:px-6 lg:px-8 section-light">
+        <!-- 4. Program Unggulan Section - Deep Dark Contrast -->
+        <section id="program" class="py-24 px-4 sm:px-6 lg:px-8 section-light">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">III. Rasionalisasi Program: Analisis & Target</h2>
-                <p class="text-center text-xl text-purple-200 mt-4 mb-10">
-                    Target terukur yang rasional berdasarkan kesenjangan kinerja Ormawa saat ini (Baseline) vs Target Kepengurusan.
-                </p>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                    <div class="lg:col-span-2 chart-container card-dark p-6 shadow-2xl">
-                        <canvas id="comparisonChart"></canvas>
-                    </div>
-
-                    <div class="lg:col-span-1 p-6 bg-rose-500/10 border-l-4 border-rose-500 rounded-xl shadow-md h-full flex flex-col justify-center">
-                        <h3 class="text-2xl font-bold text-rose-400 mb-4">Penekanan Rasionalisasi:</h3>
-                        <p class="text-purple-100 leading-relaxed text-lg">
-                            Program kami fokus pada peningkatan **Keterlibatan Eksternal** (Target 3x Lipat) dan **Penyelesaian Aspirasi** (Target 85%) sebagai kunci untuk mewujudkan Ormawa yang Progresif dan Esensial, bukan oposisi.
-                        </p>
-                        <p class="text-sm mt-4 text-purple-300">
-                            *Keterlibatan Eksternal diukur dalam frekuensi kolaborasi resmi dengan instansi luar/profesional per tahun.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Program Unggulan Section - Deep Dark Contrast -->
-        <section id="program" class="py-24 px-4 sm:px-6 lg:px-8 bg-purple-950 text-white">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">IV. Program Unggulan (Gagasan Strategis)</h2>
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">III. Program Unggulan (Gagasan Strategis)</h2>
                 <p class="text-center text-xl text-purple-300 mt-4 mb-10">
                     Pilih program untuk melihat alur kerja detail, termasuk skema bimbingan dan pengakuan keterlibatan mahasiswa kependidikan.
                 </p>
@@ -350,9 +322,9 @@
         </section>
 
         <!-- 6. Roadmap Section - Dark Contrast -->
-        <section id="roadmap" class="py-24 px-4 sm:px-6 lg:px-8 section-light">
+        <section id="roadmap" class="py-24 px-4 sm:px-6 lg:px-8 bg-purple-950 text-white">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">V. Roadmap Tahunan (Linimasa)</h2>
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">IV. Roadmap Tahunan (Linimasa)</h2>
                 <p class="text-center text-xl text-purple-200 mt-4 mb-10">
                     Linimasa terstruktur menunjukkan prioritas dan implementasi program selama 12 bulan kepengurusan.
                 </p>
@@ -365,7 +337,7 @@
         <!-- 7. Penutup / Closing Narration - Deep Dark Accent -->
         <section id="penutup" class="py-24 px-4 sm:px-6 lg:px-8 bg-purple-950 text-white">
             <div class="max-w-5xl mx-auto text-center">
-                <h2 class="text-4xl font-bold text-rose-500 mb-6">VI. Penutup</h2>
+                <h2 class="text-4xl font-bold text-rose-500 mb-6">V. Penutup</h2>
                 <p class="mt-8 text-2xl font-semibold leading-relaxed text-purple-200">
                     "Gerakan ini bukan tentang jabatan, tapi tentang kebermanfaatan.
                 </p>
@@ -556,75 +528,6 @@
             // Manually set initial active style for program-1 card
             programCardItems[0].querySelector('.card-dark').classList.remove('border-purple-700');
             programCardItems[0].querySelector('.card-dark').classList.add('border-rose-500');
-
-
-            // --- Chart: Analisis Kebutuhan & Target ---
-            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
-            
-            // Dark Mode Colors for Chart
-            Chart.defaults.color = '#d1d5db'; // text-gray-300
-            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)'; 
-
-            const comparisonData = {
-                labels: ['Penyelesaian Aspirasi', 'Keterlibatan Eksternal', 'Peningkatan Keterlibatan Digital'],
-                datasets: [
-                    {
-                        label: 'Baseline (Kondisi Awal)',
-                        data: [50, 3, 20], 
-                        backgroundColor: 'rgba(244, 114, 182, 0.8)', /* rose-400 */
-                        borderColor: 'rgb(244, 114, 182)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Target Kepengurusan',
-                        data: [85, 10, 75], 
-                        backgroundColor: 'rgba(109, 40, 217, 0.8)', /* purple-800 */
-                        borderColor: 'rgb(109, 40, 217)',
-                        borderWidth: 1
-                    }
-                ]
-            };
-
-            new Chart(comparisonCtx, {
-                type: 'bar',
-                data: comparisonData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Perbandingan Kinerja Ormawa (Baseline vs Target)'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Kinerja (Persentase / Jumlah)'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    if (value % 1 === 0) return value;
-                                    return null;
-                                }
-                            }
-                        },
-                         x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
-                            }
-                        }
-                    }
-                }
-            });
 
 
             // --- Chart: Roadmap Tahunan ---
