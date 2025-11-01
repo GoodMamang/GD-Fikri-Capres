@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fikri Ahmad Rifai - Calon Presiden Mahasiswa UNPER 2025/2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Poppins Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Deep Plum/Rose (Base: bg-purple-950, Primary: text-rose-400, Accent: text-rose-500) -->
+    <!-- Application Structure Plan: Dark Theme Presentation Layout (Inspired by Galactic UI). Struktur menggunakan Dark Mode (bg-purple-950) dominan dengan kartu-kartu glassmorphism dan tata letak per blok informasi. Hero -> Visi (Wide Card) -> Misi (6 separate cards) -> Nilai (Interactive Pills) -> Analisis (Chart Kontras) -> Program (Block Cards + Flowchart) -> Roadmap (Gantt Chart Dark Mode) -> Penutup. Fokus pada kesan futuristik dan mudah dijelaskan per poin. -->
+    <!-- Visualization & Content Choices: 1. Misi/Nilai -> Individual Dark Cards with Icons (HTML/Unicode) -> Goal: Inform/Organize. 2. Analisis & Target -> Bar Chart (Chart.js/Canvas) -> Dark Mode Colors, Goal: Compare/Rasionalize. 3. Reformasi Program -> Block Cards + Process Flow Diagram (HTML/CSS) -> Dark Mode Styling, Goal: Explain Process/Summarize. 4. Roadmap Tahunan -> Horizontal Bar Chart (Gantt) -> Dark Mode Colors, Goal: Change/Time. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0c001c; /* Deep Purple/Plum (bg-purple-950 custom) */
+            color: #d1d5db; /* Light Gray for text */
+        }
+        .section-light {
+            background-color: #1a0833; /* Slightly lighter dark background */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        /* Card Styling for Dark Background - Simulating Glassmorphism */
+        .card-dark {
+            background-color: rgba(255, 255, 255, 0.05); /* Very light transparent white */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            @apply rounded-3xl shadow-2xl; /* Increased rounded corners for modern look */
+        }
+
+        /* Navigation */
+        .nav-link {
+            @apply px-4 py-2 rounded-full text-sm font-semibold text-white hover:text-rose-400 hover:bg-purple-700 transition-colors;
+        }
+        /* Icon styling */
+        .card-icon {
+            @apply text-4xl font-extrabold mb-3 text-rose-400;
+        }
+        /* Nilai Pills Styling */
+        .pill-btn {
+            @apply px-5 py-2 text-sm font-semibold rounded-full shadow-lg transition-all duration-200;
+        }
+        .pill-btn.active {
+            @apply bg-rose-500 text-purple-900 shadow-xl;
+        }
+        .pill-btn:not(.active) {
+            @apply bg-purple-700 text-purple-100 hover:bg-purple-600 border border-purple-500;
+        }
+        
+        /* Flowchart (in dark section) */
+        .flow-step-dark {
+            @apply flex flex-col items-center text-center p-4 rounded-xl bg-purple-800 shadow-lg border-t-4 border-rose-400;
+            min-height: 160px;
+        }
+        .flow-arrow-dark {
+            @apply text-rose-500 text-3xl h-10 flex items-center justify-center font-extrabold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Navigation (Fixed/Sticky Dark) -->
+    <header class="sticky top-0 z-50 bg-purple-900 shadow-xl">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-3xl font-extrabold text-rose-400 tracking-tight">Grand Design</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-2">
+                        <a href="#beranda" class="nav-link">Beranda</a>
+                        <a href="#visi-misi" class="nav-link">Visi & Misi</a>
+                        <a href="#nilai" class="nav-link">Nilai Dasar</a>
+                        <a href="#analisis" class="nav-link">Rasionalisasi</a>
+                        <a href="#program" class="nav-link">Program Inti</a>
+                        <a href="#roadmap" class="nav-link">Linimasa</a>
+                        <a href="#penutup" class="nav-link">Penutup</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 rounded-full text-purple-200 hover:text-white hover:bg-purple-700">
+                        <span class="sr-only">Buka menu</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden transition-all duration-300">
+            <div class="px-4 pt-2 pb-4 space-y-1 sm:px-3 bg-purple-900 border-t border-purple-700">
+                <a href="#beranda" class="nav-link block">Beranda</a>
+                <a href="#visi-misi" class="nav-link block">Visi & Misi</a>
+                <a href="#nilai" class="nav-link block">Nilai Dasar</a>
+                <a href="#analisis" class="nav-link block">Rasionalisasi</a>
+                <a href="#program" class="nav-link block">Program Inti</a>
+                <a href="#roadmap" class="nav-link block">Linimasa</a>
+                <a href="#penutup" class="nav-link block">Penutup</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- 1. Beranda (Hero) Section - Deep Dark Contrast -->
+        <section id="beranda" class="h-[85vh] flex flex-col justify-center items-center text-center bg-purple-950 text-white px-4 py-20 shadow-2xl">
+            <div class="max-w-5xl mx-auto">
+                <p class="text-xl font-semibold uppercase tracking-widest text-rose-400 mb-4 animate-pulse">Aksi Nyata & Kolaborasi</p>
+                <h1 class="text-6xl md:text-8xl font-black mb-4 tracking-tighter">Fikri Ahmad Rifai</h1>
+                <h2 class="text-2xl md:text-3xl font-light mt-2 text-purple-300">Calon Presiden Mahasiswa Universitas Perjuangan 2025/2026</h2>
+                <div class="mt-16 p-6 card-dark max-w-3xl mx-auto">
+                    <p class="text-xl leading-relaxed italic font-medium">
+                        "Mewujudkan Organisasi Mahasiswa UNPER yang Progresif, Aktif, dan Esensial menjadi wadah pengembangan diri, kolaborasi, dan gerakan nyata mahasiswa untuk kemajuan kampus dan masyarakat."
+                    </p>
+                </div>
+                <div class="mt-12">
+                     <a href="#visi-misi" class="inline-block px-8 py-3 text-lg font-bold rounded-full bg-rose-500 text-purple-900 shadow-2xl hover:bg-rose-400 transition-colors transform hover:scale-105">
+                        Lihat Grand Design Lengkap ↓
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Visi & Misi Section - Dark/Clean Contrast, Card Layout -->
+        <section id="visi-misi" class="py-24 px-4 sm:px-6 lg:px-8 section-light">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">I. Visi & Misi</h2>
+                <p class="text-center text-xl text-purple-200 mt-4 mb-16 max-w-3xl mx-auto">
+                    Fondasi kepemimpinan yang berorientasi pada hasil dan penguatan peran kolektif mahasiswa.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch mb-12">
+                    
+                    <!-- Visi Card (Large Statement) -->
+                    <div class="card-dark p-8 border-l-8 border-rose-500 md:col-span-2 transform hover:shadow-rose-500/30 transition-all duration-300">
+                        <h3 class="text-3xl font-extrabold text-rose-400 mb-4">Visi Utama</h3>
+                        <p class="text-xl text-purple-100 leading-relaxed italic border-t pt-4 border-purple-700">
+                            "Mewujudkan Organisasi Mahasiswa UNPER yang Progresif, Aktif, dan Esensial menjadi wadah pengembangan diri, kolaborasi, dan gerakan nyata mahasiswa untuk kemajuan kampus dan masyarakat."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Misi List (6 Individual Cards) -->
+                <h3 class="text-3xl font-extrabold text-rose-400 mb-8 border-b pb-3 border-purple-700">6 Pilar Misi</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Misi 1 -->
+                    <div class="card-dark p-6 hover:border-rose-500 border border-transparent transition-all duration-300">
+                        <span class="card-icon">⚙️</span>
+                        <p class="font-bold text-xl text-rose-400 mb-2">Tata Kelola Profesional</p>
+                        <p class="text-sm text-purple-200">Membangun Ormawa yang efisien dan profesional, dengan sistem kerja yang jelas.</p>
+                    </div>
+
+                    <!-- Misi 2 -->
+                    <div class="card-dark p-6 hover:border-rose-500 border border-transparent transition-all duration-300">
+                        <span class="card-icon">🤝</span>
+                        <p class="font-bold text-xl text-rose-400 mb-2">Partisipasi Inklusif</p>
+                        <p class="text-sm text-purple-200">Mendorong partisipasi aktif mahasiswa dalam kegiatan akademik, sosial, dan pengabdian.</p>
+                    </div>
+
+                    <!-- Misi 3 -->
+                    <div class="card-dark p-6 hover:border-rose-500 border border-transparent transition-all duration-300">
+                        <span class="card-icon">📈</span>
+                        <p class="font-bold text-xl text-rose-400 mb-2">Kaderisasi Terukur</p>
+                        <p class="text-sm text-purple-200">Mewujudkan kaderisasi yang relevan berbasis minat, potensi, dan arah yang jelas.</p>
+                    </div>
+
+                    <!-- Misi 4 -->
+                    <div class="card-dark p-6 hover:border-rose-500 border border-transparent transition-all duration-300">
+                        <span class="card-icon">🗣️</span>
+                        <p class="font-bold text-xl text-rose-400 mb-2">Advokasi Solutif</p>
+                        <p class="text-sm text-purple-200">Menjadi jembatan aspirasi melalui advokasi yang santun dan berorientasi pada hasil.</p>
+                    </div>
+
+                    <!-- Misi 5 -->
+                    <div class="card-dark p-6 hover:border-rose-500 border border-transparent transition-all duration-300">
+                        <span class="card-icon">🧠</span>
+                        <p class="font-bold text-xl text-rose-400 mb-2">Peningkatan SDM</p>
+                        <p class="text-sm text-purple-200">Melalui pelatihan kepemimpinan, manajemen organisasi, dan literasi digital.</p>
+                    </div>
+
+                    <!-- Misi 6 -->
+                    <div class="card-dark p-6 hover:border-rose-500 border border-transparent transition-all duration-300">
+                        <span class="card-icon">🌍</span>
+                        <p class="font-bold text-xl text-rose-400 mb-2">Kolaborasi Produktif</p>
+                        <p class="text-sm text-purple-200">Menjalin kerjasama dengan alumni, organisasi luar, dan dunia profesional.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Nilai-Nilai Dasar Section - Deep Dark Contrast -->
+        <section id="nilai" class="py-24 px-4 sm:px-6 lg:px-8 bg-purple-950 text-white">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">II. Nilai-Nilai Dasar</h2>
+                <p class="text-center text-xl text-purple-300 mt-4 mb-10">
+                    Lima pilar etika yang menopang seluruh program kerja. Klik nilai untuk melihat maknanya.
+                </p>
+                
+                <div id="nilai-tabs-container" class="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto mb-10">
+                    <button class="pill-btn active" data-target="nilai-progresif">PROGRESIF</button>
+                    <button class="pill-btn" data-target="nilai-partisipatif">PARTISIPATIF</button>
+                    <button class="pill-btn" data-target="nilai-esensial">ESENSIAL</button>
+                    <button class="pill-btn" data-target="nilai-transparan">TRANSPARAN</button>
+                    <button class="pill-btn" data-target="nilai-kolaboratif">KOLABORATIF</button>
+                </div>
+                
+                <div id="nilai-content" class="p-8 card-dark rounded-xl shadow-2xl min-h-[150px] flex items-center justify-center transition-all duration-300 border-l-8 border-rose-500 max-w-4xl mx-auto">
+                    <p class="text-xl text-center text-purple-100 font-semibold"></p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Analisis Kebutuhan & Target (Perbandingan/Rasionalisasi) - Dark Contrast -->
+        <section id="analisis" class="py-24 px-4 sm:px-6 lg:px-8 section-light">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">III. Rasionalisasi Program: Analisis & Target</h2>
+                <p class="text-center text-xl text-purple-200 mt-4 mb-10">
+                    Target terukur yang rasional berdasarkan kesenjangan kinerja Ormawa saat ini (Baseline) vs Target Kepengurusan.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-2 chart-container card-dark p-6 shadow-2xl">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+
+                    <div class="lg:col-span-1 p-6 bg-rose-500/10 border-l-4 border-rose-500 rounded-xl shadow-md h-full flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold text-rose-400 mb-4">Penekanan Rasionalisasi:</h3>
+                        <p class="text-purple-100 leading-relaxed text-lg">
+                            Program kami fokus pada peningkatan **Keterlibatan Eksternal** (Target 3x Lipat) dan **Penyelesaian Aspirasi** (Target 85%) sebagai kunci untuk mewujudkan Ormawa yang Progresif dan Esensial, bukan oposisi.
+                        </p>
+                        <p class="text-sm mt-4 text-purple-300">
+                            *Keterlibatan Eksternal diukur dalam frekuensi kolaborasi resmi dengan instansi luar/profesional per tahun.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Program Unggulan Section - Deep Dark Contrast -->
+        <section id="program" class="py-24 px-4 sm:px-6 lg:px-8 bg-purple-950 text-white">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">IV. Program Unggulan (Gagasan Strategis)</h2>
+                <p class="text-center text-xl text-purple-300 mt-4 mb-10">
+                    Pilih program untuk melihat alur kerja detail, termasuk skema bimbingan dan pengakuan keterlibatan mahasiswa kependidikan.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards Program -->
+                    <div class="program-card-item" data-target="program-1">
+                        <div class="card-dark p-6 h-full cursor-pointer hover:shadow-rose-500/50 transition-shadow duration-300 border-l-8 border-purple-700 hover:border-rose-500">
+                            <span class="text-5xl mb-4 block text-rose-500">🛠️</span>
+                            <h3 class="text-2xl font-bold text-rose-400 mb-2">REFORMASI & PENGUATAN ORMAWA</h3>
+                            <p class="text-sm text-purple-200">Menciptakan tata kelola profesional dan Forum Konsolidasi untuk mengatasi oposisi internal melalui sinergi.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="program-card-item" data-target="program-2">
+                         <div class="card-dark p-6 h-full cursor-pointer hover:shadow-rose-500/50 transition-shadow duration-300 border-l-8 border-purple-700 hover:border-rose-500">
+                            <span class="text-5xl mb-4 block text-rose-500">📢</span>
+                            <h3 class="text-2xl font-bold text-rose-400 mb-2">PUSAT ASPIRASI & ADVOKASI (PAAM)</h3>
+                            <p class="text-sm text-purple-200">Jembatan aspirasi mahasiswa melalui advokasi yang solutif, santun, dan berbasis hasil.</p>
+                        </div>
+                    </div>
+
+                    <div class="program-card-item" data-target="program-4">
+                         <div class="card-dark p-6 h-full cursor-pointer hover:shadow-rose-500/50 transition-shadow duration-300 border-l-8 border-purple-700 hover:border-rose-500">
+                            <span class="text-5xl mb-4 block text-rose-500">💡</span>
+                            <h3 class="text-2xl font-bold text-rose-400 mb-2">INKUBATOR MAHASISWA UNPER</h3>
+                            <p class="text-sm text-purple-200">Wadah bimbingan terstruktur dan pengakuan keterlibatan (khususnya proyek kependidikan).</p>
+                        </div>
+                    </div>
+
+                    <div class="program-card-item" data-target="program-5">
+                         <div class="card-dark p-6 h-full cursor-pointer hover:shadow-rose-500/50 transition-shadow duration-300 border-l-8 border-purple-700 hover:border-rose-500">
+                            <span class="text-5xl mb-4 block text-rose-500">🔬</span>
+                            <h3 class="text-2xl font-bold text-rose-400 mb-2">FORUM STRATEGIS MAHASISWA (FORSMA)</h3>
+                            <p class="text-sm text-purple-200">Mendorong kontribusi intelektual dan penelitian mahasiswa sebagai data kredibel.</p>
+                        </div>
+                    </div>
+
+                    <div class="program-card-item" data-target="program-6">
+                         <div class="card-dark p-6 h-full cursor-pointer hover:shadow-rose-500/50 transition-shadow duration-300 border-l-8 border-purple-700 hover:border-rose-500">
+                            <span class="text-5xl mb-4 block text-rose-500">🎬</span>
+                            <h3 class="text-2xl font-bold text-rose-400 mb-2">ORMASTALK & KOLABORAKSI</h3>
+                            <p class="text-sm text-purple-200">Memperluas jejaring dan memberikan pengakuan eksternal melalui kolaborasi produktif.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Program & Flowchart -->
+                <div id="program-detail-block" class="mt-16 card-dark p-8 shadow-2xl">
+                    <div id="program-content" class="transition-all duration-300">
+                        <h3 id="program-title" class="text-3xl font-bold text-rose-400 mb-4 border-b border-rose-400/50 pb-2"></h3>
+                        
+                        <!-- Flowchart for Reformasi (only visible for program-1) -->
+                        <div id="reformasi-flow" class="hidden my-8 p-6 bg-purple-900 rounded-xl">
+                            <h4 class="text-lg font-bold text-purple-200 mb-4">Alur Kerja Reformasi (Sinergi & Anti-Oposisi)</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="flow-step-dark text-white">
+                                    <span class="card-icon text-rose-500">①</span>
+                                    <p class="font-semibold text-rose-300">Penataan SOP</p>
+                                    <p class="text-sm text-purple-200">Sistem kerja yang jelas & mudah dijalankan.</p>
+                                </div>
+                                <div class="flow-arrow-dark hidden sm:flex">→</div>
+                                <div class="flow-step-dark text-white">
+                                    <span class="card-icon text-rose-500">②</span>
+                                    <p class="font-semibold text-rose-300">Kalender Bersama</p>
+                                    <p class="text-sm text-purple-200">Sinkronisasi kegiatan, hindari tumpang tindih.</p>
+                                </div>
+                                <div class="flow-arrow-dark hidden sm:flex">→</div>
+                                <div class="flow-step-dark text-white">
+                                    <span class="card-icon text-rose-500">③</span>
+                                    <p class="font-semibold text-rose-300">Konsolidasi Periodik</p>
+                                    <p class="text-sm text-purple-200">Forum rutin untuk berbagi program & kolaborasi.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul id="program-details" class="list-disc pl-6 space-y-3 text-purple-100 text-lg">
+                            <!-- Content populated by JS -->
+                        </ul>
+                        
+                        <div class="mt-8 border-t pt-4 border-rose-400/50">
+                            <h4 class="text-base font-bold text-rose-400 mb-2">Penjelasan (Rasional & Pengakuan):</h4>
+                            <p id="program-note" class="text-sm italic text-purple-200"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Roadmap Section - Dark Contrast -->
+        <section id="roadmap" class="py-24 px-4 sm:px-6 lg:px-8 section-light">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-rose-400 mb-4 border-b-4 border-rose-400 inline-block pb-1">V. Roadmap Tahunan (Linimasa)</h2>
+                <p class="text-center text-xl text-purple-200 mt-4 mb-10">
+                    Linimasa terstruktur menunjukkan prioritas dan implementasi program selama 12 bulan kepengurusan.
+                </p>
+                <div class="chart-container card-dark p-6 shadow-xl">
+                    <canvas id="roadmapChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 7. Penutup / Closing Narration - Deep Dark Accent -->
+        <section id="penutup" class="py-24 px-4 sm:px-6 lg:px-8 bg-purple-950 text-white">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-rose-500 mb-6">VI. Penutup</h2>
+                <p class="mt-8 text-2xl font-semibold leading-relaxed text-purple-200">
+                    "Gerakan ini bukan tentang jabatan, tapi tentang kebermanfaatan.
+                </p>
+                <p class="mt-4 text-xl font-light italic leading-relaxed text-purple-200">
+                    Kita ingin Ormawa UNPER menjadi ruang belajar, berjejaring, dan berkarya.
+                </p>
+                <div class="mt-12 p-8 bg-purple-900 rounded-2xl shadow-2xl border-t-4 border-rose-500">
+                    <p class="text-4xl font-extrabold text-rose-500 leading-relaxed tracking-tight">
+                        Mari bersama wujudkan organisasi mahasiswa yang progresif, aktif, dan berdampak nyata yang hadir untuk mahasiswa, dari mahasiswa, dan oleh mahasiswa.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-black text-center">
+        <p class="text-gray-400">
+            Dibuat untuk Mahasiswa Universitas Perjuangan Tasikmalaya
+        </p>
+        <p class="text-gray-400 mt-2 text-sm">
+            Fikri Ahmad Rifai &copy; 2025
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Data Content ---
+            const nilaiData = {
+                'nilai-progresif': 'Selalu mencari cara baru untuk berkembang dan berinovasi di kampus. (Mendorong kemajuan sistem kerja dan ide kreatif)',
+                'nilai-partisipatif': 'Setiap mahasiswa berhak didengar dan dilibatkan dalam kegiatan. (Menghargai setiap kontribusi dan melawan sikap oposisi dengan inklusifitas)',
+                'nilai-esensial': 'Fokus pada hal yang bermanfaat dan berdampak nyata bagi mahasiswa. (Mengutamakan kegiatan yang menghasilkan nilai tambah dan pengakuan)',
+                'nilai-transparan': 'Terbuka dalam keputusan, keuangan, dan pelaksanaan kegiatan. (Membangun kepercayaan dan akuntabilitas)',
+                'nilai-kolaboratif': 'Bersatu membangun, bukan bersaing. Bersama kita lebih kuat. (Sinergi lintas fakultas, termasuk pengakuan peran mahasiswa pendidikan)'
+            };
+
+            const programData = {
+                'program-1': {
+                    title: 'REFORMASI & PENGUATAN ORMAWA',
+                    details: [
+                        'Membangun sistem kerja Ormawa yang efisien dan saling terhubung.',
+                        'Menyusun Standard Operating Procedure (SOP) dan kalender kegiatan bersama.',
+                        'Mengadakan Forum Konsolidasi Ormawa UNPER setiap semester untuk saling berbagi program dan kolaborasi.'
+                    ],
+                    note: 'Program ini adalah kunci untuk menciptakan tata kelola yang profesional. Dengan sistem yang jelas dan Forum Konsolidasi, potensi "oposisi internal" diatasi melalui sinergi, kolaborasi, dan perencanaan yang terintegrasi.',
+                    isReformasi: true
+                },
+                'program-2': {
+                    title: 'PUSAT ASPIRASI DAN ADVOKASI MAHASISWA (PAAM)',
+                    details: [
+                        'Membuka Posko Aspirasi Mahasiswa UNPER secara daring dan luring.',
+                        'Membentuk Tim Advokasi Mahasiswa untuk menyalurkan isu dan solusi ke pihak rektorat.'
+                    ],
+                    note: 'Fokus pada advokasi yang solutif dan berbasis data (rasional), bukan emosi. Menjamin setiap aspirasi mahasiswa diakui dan ditindaklanjuti secara profesional.',
+                    isReformasi: false
+                },
+                'program-4': {
+                    title: 'INKUBATOR MAHASISWA UNPER',
+                    details: [
+                        'Pelatihan tentang kepemimpinan, komunikasi, dan manajemen organisasi.',
+                        'Workshop desain, media kreatif, dan kewirausahaan mahasiswa.'
+                    ],
+                    note: 'INKUBATOR adalah wadah bimbingan terstruktur dan pengakuan keterlibatan. Khususnya bagi mahasiswa kependidikan/pengajaran, kami memfasilitasi bimbingan, validasi, dan pengakuan proyek mereka (media pembelajaran, riset tindakan) agar dapat terlibat dan diakui secara resmi dalam program pengabdian kampus.',
+                    isReformasi: false
+                },
+                'program-5': {
+                    title: 'FORUM STRATEGIS MAHASISWA (FORSMA)',
+                    details: [
+                        'Diskusi tematik tentang isu kampus dan peluang pengembangan mahasiswa.',
+                        'Kelas kebijakan publik dan penelitian mahasiswa untuk mendukung karya ilmiah.',
+                        'Pusat data riset dan opini mahasiswa UNPER.'
+                    ],
+                    note: 'FORSMA mendorong mahasiswa untuk aktif dalam ranah akademik, menjadikan kontribusi intelektual mereka diakui sebagai data kredibel dalam pengambilan keputusan strategis.',
+                    isReformasi: false
+                },
+                'program-6': {
+                    title: 'ORMASTALK & KOLABORAKSI',
+                    details: [
+                        'Podcast dan konten kreatif lintas Ormawa untuk membahas topik kampus dan sosial.',
+                        'Kolaborasi dengan organisasi luar dan instansi daerah untuk kegiatan pengabdian.'
+                    ],
+                    note: 'Memperluas jejaring dan meningkatkan kualitas SDM melalui kolaborasi produktif dengan dunia profesional, memberikan pengakuan eksternal atas kompetensi mahasiswa.',
+                    isReformasi: false
+                }
+            };
+            
+            // --- Helper Functions ---
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            // --- Nilai-Nilai Dasar Tabs Logic (Pills) ---
+            const nilaiTabsContainer = document.getElementById('nilai-tabs-container');
+            const nilaiContent = document.getElementById('nilai-content').querySelector('p');
+
+            function updateNilaiContent(target) {
+                nilaiContent.textContent = nilaiData[target] || 'Konten tidak ditemukan.';
+            }
+
+            nilaiTabsContainer.addEventListener('click', (e) => {
+                const button = e.target.closest('.pill-btn');
+                if (button) {
+                    nilaiTabsContainer.querySelector('.active').classList.remove('active');
+                    button.classList.add('active');
+                    updateNilaiContent(button.dataset.target);
+                }
+            });
+            
+            updateNilaiContent('nilai-progresif');
+
+            // --- Program Unggulan Tabs Logic (Card Interaction) ---
+            const programCardItems = document.querySelectorAll('.program-card-item');
+            const programTitle = document.getElementById('program-title');
+            const programDetails = document.getElementById('program-details');
+            const programNote = document.getElementById('program-note');
+            const reformasiFlow = document.getElementById('reformasi-flow');
+            const programDetailBlock = document.getElementById('program-detail-block');
+
+            function updateProgramContent(target) {
+                const data = programData[target];
+                if (data) {
+                    programTitle.textContent = data.title;
+                    programNote.textContent = data.note;
+                    programDetails.innerHTML = '';
+                    data.details.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        programDetails.appendChild(li);
+                    });
+                    
+                    if (data.isReformasi) {
+                        reformasiFlow.classList.remove('hidden');
+                    } else {
+                        reformasiFlow.classList.add('hidden');
+                    }
+
+                    // Scroll to detail block on mobile after selecting a card
+                    if (window.innerWidth < 768) {
+                        programDetailBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            }
+            
+            programCardItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const target = item.dataset.target;
+                    
+                    // Remove active border from all
+                    programCardItems.forEach(card => {
+                        const cardDiv = card.querySelector('.card-dark');
+                        cardDiv.classList.remove('border-rose-500');
+                        cardDiv.classList.add('border-purple-700');
+                    });
+
+                    // Add active border to current
+                    const activeCardDiv = item.querySelector('.card-dark');
+                    activeCardDiv.classList.remove('border-purple-700');
+                    activeCardDiv.classList.add('border-rose-500');
+
+                    updateProgramContent(target);
+                });
+            });
+
+            // Initialize with program-1
+            updateProgramContent('program-1');
+            // Manually set initial active style for program-1 card
+            programCardItems[0].querySelector('.card-dark').classList.remove('border-purple-700');
+            programCardItems[0].querySelector('.card-dark').classList.add('border-rose-500');
+
+
+            // --- Chart: Analisis Kebutuhan & Target ---
+            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+            
+            // Dark Mode Colors for Chart
+            Chart.defaults.color = '#d1d5db'; // text-gray-300
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)'; 
+
+            const comparisonData = {
+                labels: ['Penyelesaian Aspirasi', 'Keterlibatan Eksternal', 'Peningkatan Keterlibatan Digital'],
+                datasets: [
+                    {
+                        label: 'Baseline (Kondisi Awal)',
+                        data: [50, 3, 20], 
+                        backgroundColor: 'rgba(244, 114, 182, 0.8)', /* rose-400 */
+                        borderColor: 'rgb(244, 114, 182)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Target Kepengurusan',
+                        data: [85, 10, 75], 
+                        backgroundColor: 'rgba(109, 40, 217, 0.8)', /* purple-800 */
+                        borderColor: 'rgb(109, 40, 217)',
+                        borderWidth: 1
+                    }
+                ]
+            };
+
+            new Chart(comparisonCtx, {
+                type: 'bar',
+                data: comparisonData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Perbandingan Kinerja Ormawa (Baseline vs Target)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Kinerja (Persentase / Jumlah)'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    if (value % 1 === 0) return value;
+                                    return null;
+                                }
+                            }
+                        },
+                         x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            // --- Chart: Roadmap Tahunan ---
+            const roadmapCtx = document.getElementById('roadmapChart').getContext('2d');
+            
+            // Utility to wrap text in Chart.js
+            function wrapText(ctx, text, maxWidth) {
+                let lines = [];
+                let words = text.split(' ');
+                let line = '';
+                for (let n = 0; n < words.length; n++) {
+                    let testLine = line + words[n] + ' ';
+                    let metrics = ctx.measureText(testLine);
+                    let testWidth = metrics.width;
+                    if (testWidth > maxWidth && n > 0) {
+                        lines.push(line.trim());
+                        line = words[n] + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                }
+                lines.push(line.trim());
+                return lines;
+            }
+            
+            const roadmapData = {
+                labels: [
+                    'Konsolidasi Internal, Rencana Tahunan',
+                    'Pelatihan Kader Dasar (di tiap fakultas dan prodi)',
+                    'Implementasi Program Utama (INDAKTA, PAAM, FORSMA)',
+                    'Kolaborasi Eksternal, Ormastalk, Audit Kegiatan',
+                    'Evaluasi Tahunan'
+                ],
+                datasets: [{
+                    label: 'Linimasa (Bulan ke-)',
+                    data: [
+                        [0, 2], // Bulan 1-2
+                        [2, 4], // Bulan 3-4
+                        [4, 7], // Bulan 5-7
+                        [7, 10], // Bulan 8-10
+                        [10, 12] // Bulan 11-12
+                    ],
+                    backgroundColor: 'rgba(251, 146, 60, 0.7)', /* amber-500 for variety in dark section */
+                    borderColor: 'rgba(251, 146, 60, 1)',
+                    borderWidth: 1,
+                    barPercentage: 0.7,
+                    categoryPercentage: 0.8
+                }]
+            };
+
+            new Chart(roadmapCtx, {
+                type: 'bar',
+                data: roadmapData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 12,
+                            title: {
+                                display: true,
+                                text: 'Bulan Kepengurusan'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return 'Bulan ' + value;
+                                }
+                            }
+                        },
+                        y: {
+                             grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                callback: function(value) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 30) {
+                                        return wrapText(roadmapCtx, label, 180);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const val = context.raw;
+                                    return `Fokus: Bulan ${val[0]} sampai ${val[1]}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
